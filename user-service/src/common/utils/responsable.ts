@@ -5,7 +5,7 @@ export class Responsable {
     res.status(200).json(this.createResponseObject('success', message, data));
   }
 
-  static sendError(res: Response, message: string, status: number = 500) {
+  static sendError(res: Response, message: string, status = 500) {
     res.status(status).json({
       status: 'failed',
       message,
@@ -13,8 +13,8 @@ export class Responsable {
   }
 
   private static createResponseObject(
-    status: string = 'success',
-    message: string = '',
+    status = 'success',
+    message = '',
     data: object,
   ) {
     return {

@@ -20,11 +20,10 @@ async function bootstrap() {
     AppModule,
     microserviceOptions,
   );
-  app.useGlobalFilters(new AllExceptionsFilter());
-  app.listen().then(() => logger.log('Auth Microservice is listening...'));
-
   const httpApp = await NestFactory.create(AppModule);
+  app.useGlobalFilters(new AllExceptionsFilter());
   httpApp.useGlobalFilters(new AllExceptionsFilter());
+  app.listen().then(() => logger.log('Auth Microservice is listening...'));
   httpApp.listen(config.port);
 }
 bootstrap();

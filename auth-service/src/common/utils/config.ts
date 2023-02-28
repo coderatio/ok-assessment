@@ -9,4 +9,8 @@ export const config = {
     host: process.env.AUTH_SERVICE_HOST || 'auth-service',
     port: Number(process.env.AUTH_SERVICE_PORT) || 4000,
   },
+  userService: {
+    host: process.env.USER_SERVICE_HOST || 'user-service',
+    port: process.env.USER_SERVICE_PORT || 4001,
+  },
 };
