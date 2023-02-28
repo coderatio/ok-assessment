@@ -1,0 +1,66 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo 10.10.10.60:27017/test --quiet
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  auth-service:
+    container_name: auth_service
+    build:
+      context: ./
+      dockerfile: ./auth-service/Dockerfile
+    volumes:
+      - ./auth-service:/usr/src/app/auth-service
+      - /usr/src/app/auth-service/node_modules
+    ports:
+      - "3001:3001"
+    command: npm run start:dev
+    env_file:
+      - ./auth-service/.env
+    depends_on:
+      - mongodb
+
+  user-service:
+    container_name: user_service
+    build:
+      context: ./
+      dockerfile: ./user-service/Dockerfile
+    volumes:
+      - ./user-service:/usr/src/app/user-service
+      - /usr/src/app/user-service/node_modules
+    ports:
+      - "3000:3000"
+    command: npm run start:dev
+    env_file:
+      - ./user-service/.env
+    depends_on:
+      - mongodb
+      - auth-service
+
+  payment-service:
+    container_name: payment_service
+    build:
+      context: ./
+      dockerfile: ./payment-service/Dockerfile
+    volumes:
+      - ./payment-service:/usr/src/app/payment-service
+      - /usr/src/app/payment-service/node_modules
+    ports:
+      - "3002:3002"
+    command: npm run start:dev
+    env_file:
+      - ./payment-service/.env
+    depends_on:
+      - mongodb
+      - auth-service
+
+volumes:
+  mongodb_data_container:
