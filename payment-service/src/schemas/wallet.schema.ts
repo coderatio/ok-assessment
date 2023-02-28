@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
+import { WalletHistory } from './wallet-history.schema';
 
 export type WalletDocument = Wallet & Document;
 
@@ -17,6 +18,15 @@ export class Wallet {
 
   @Prop({ default: process.env.DEFAULT_DAILY_LIMIT })
   dailyLimit: number;
+
+  @Prop({ type: mongoose.Types.ObjectId, ref: 'WalletHistory' })
+  histories: WalletHistory[];
+
+  @Prop({ type: Date, default: Date.now })
+  createdAt: Date;
+
+  @Prop({ type: Date, default: Date.now })
+  updatedAt: Date;
 }
 
 export const WalletSchema = SchemaFactory.createForClass(Wallet);

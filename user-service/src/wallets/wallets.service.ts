@@ -8,17 +8,17 @@ import { RpcClient } from 'src/common/utils/rpc';
 export class WalletsService {
   constructor(
     @Inject(PAYMENT_SERVICE) private readonly paymentClient: ClientProxy,
-  ) { }
+  ) {}
 
   async create(data: WalletCreateDto): Promise<any> {
-    return this.sendClientMessage({ role: 'wallets', cmd: 'create' }, data)
+    return this.sendClientMessage({ role: 'wallets', cmd: 'create' }, data);
   }
 
   async findAll(data): Promise<any> {
-    return this.sendClientMessage({ role: 'wallets', cmd: 'get' }, data)
+    return this.sendClientMessage({ role: 'wallets', cmd: 'get' }, data);
   }
 
   private sendClientMessage(pattern: any, data: any) {
-    return RpcClient.send(this.paymentClient, pattern, data)
+    return RpcClient.send(this.paymentClient, pattern, data);
   }
 }

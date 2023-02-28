@@ -23,4 +23,4 @@ import { AUTH_SERVICE, PAYMENT_SERVICE } from 'src/common/constants';
   providers: [WalletsService],
   controllers: [WalletsController],
 })
-export class WalletModule { }
+export class WalletModule {}
