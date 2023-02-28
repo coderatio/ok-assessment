@@ -12,6 +12,22 @@ export class Responsable {
     });
   }
 
+  static sendRpcSuccess(message: string, data?: object) {
+    return {
+      error: false,
+      message,
+      data,
+    };
+  }
+
+  static sendRpcError(message: string, code: number = 500) {
+    return {
+      error: true,
+      message,
+      code,
+    };
+  }
+
   private static createResponseObject(
     status: string = 'success',
     message: string = '',
