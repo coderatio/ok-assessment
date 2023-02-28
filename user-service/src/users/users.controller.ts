@@ -42,7 +42,11 @@ export class UsersController {
 
       if (id) {
         if (users.length === 0) {
-          return Responsable.sendError(res, 'User does not exist', HttpStatus.NOT_FOUND)
+          return Responsable.sendError(
+            res,
+            'User does not exist',
+            HttpStatus.NOT_FOUND,
+          );
         }
 
         return Responsable.sendSuccess(res, 'User retreived', users.shift());

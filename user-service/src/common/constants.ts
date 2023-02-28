@@ -5,3 +5,4 @@ export const jwtConstants = {
 
 export const AUTH_SERVICE = 'AUTH_SERVICE';
 export const PAYMENT_SERVICE = 'PAYMENT_SERVICE';
+export const SUPPORTED_CURRENCIES = ['NGN', 'USD'];

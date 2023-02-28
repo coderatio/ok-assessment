@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
 import { Transport } from '@nestjs/microservices';
 import { config } from './common/utils/config';
+import { AllRpcExceptionFilter } from './filters/rpc-exceptions.filter';
 
 const logger = new Logger('Main');
 
@@ -20,7 +21,7 @@ async function bootstrap() {
     AppModule,
     microserviceOptions,
   );
-  app.useGlobalFilters(new AllExceptionsFilter());
+  app.useGlobalFilters(new AllRpcExceptionFilter());
   app.listen().then(() => logger.log('User Microservice is listening'));
   app.useGlobalPipes(
     new ValidationPipe({

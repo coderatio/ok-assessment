@@ -1,9 +1,4 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Inject,
-  Logger,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Inject, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { timeout } from 'rxjs';
 import { AUTH_SERVICE } from 'src/common/constants';
@@ -13,7 +8,7 @@ export class PrincipalGuard implements CanActivate {
   constructor(
     @Inject(AUTH_SERVICE)
     private readonly client: ClientProxy,
-  ) { }
+  ) {}
 
   async canActivate(context: ExecutionContext) {
     const req = context.switchToHttp().getRequest();

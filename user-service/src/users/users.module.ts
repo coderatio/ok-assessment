@@ -9,9 +9,7 @@ import { AUTH_SERVICE } from 'src/common/constants';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: User.name, schema: UserSchema },
-    ]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     ClientsModule.register([
       {
         name: AUTH_SERVICE,
