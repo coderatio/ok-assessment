@@ -18,8 +18,7 @@ export const appModuleOptions = {
   ],
   controllers: [AppController],
   providers: [AppService],
-}
+};
 
 @Module(appModuleOptions)
-
-export class AppModule { }
+export class AppModule {}

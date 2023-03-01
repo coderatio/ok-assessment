@@ -1,11 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
+import { Document } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { WalletHistory } from './wallet-history.schema';
 import { PaymentStatus } from './payment.schema';
 
-export type PaymentLogDocument = PaymentLog;
+export type RefundDocument = Refund & Document;
 
 @Schema()
-export class PaymentLog extends Document {
+export class Refund {
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  owner: mongoose.Schema.Types.ObjectId;
+
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Payment',
@@ -13,14 +18,14 @@ export class PaymentLog extends Document {
   })
   payment: mongoose.Schema.Types.ObjectId;
 
+  @Prop({ default: 0 })
+  amount: number;
+
   @Prop({ type: String, required: true })
   ref: string;
 
   @Prop({ type: String, enum: PaymentStatus, default: PaymentStatus.INITIATED })
   status: PaymentStatus;
-
-  @Prop({ type: Object })
-  metadata?: Record<string, any>;
 
   @Prop({ type: Date, default: Date.now })
   createdAt: Date;
@@ -29,10 +34,9 @@ export class PaymentLog extends Document {
   updatedAt: Date;
 }
 
-export const PaymentLogSchema = SchemaFactory.createForClass(PaymentLog);
-mongoose.model('PaymentLog', PaymentLogSchema, 'PaymentLog');
+export const RefundSchema = SchemaFactory.createForClass(Refund);
 
-PaymentLogSchema.set('toJSON', {
+RefundSchema.set('toJSON', {
   transform: function (doc, ret, options) {
     ret.id = ret._id;
     delete ret._id;
