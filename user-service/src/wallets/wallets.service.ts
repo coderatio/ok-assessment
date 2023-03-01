@@ -7,7 +7,8 @@ import { RpcClient } from 'src/common/utils/rpc';
 @Injectable()
 export class WalletsService {
   constructor(
-    @Inject(PAYMENT_SERVICE) private readonly paymentClient: ClientProxy,
+    @Inject(PAYMENT_SERVICE)
+    private readonly paymentClient: ClientProxy,
   ) {}
 
   async create(data: WalletCreateDto): Promise<any> {

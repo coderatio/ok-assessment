@@ -48,7 +48,7 @@ export class WalletsController {
       if (data.walletId) {
         if (wallets.length === 0) {
           return Responsable.sendRpcError(
-            'Wallet not found or doesn not belong to you.',
+            'Wallet not found or does not belong to you.',
             HttpStatus.NOT_FOUND,
           );
         }

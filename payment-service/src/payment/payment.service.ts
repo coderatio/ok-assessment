@@ -45,6 +45,10 @@ export class PaymentService {
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) { }
 
+  async findAll(filters?: any): Promise<Payment[]> {
+    return this.paymentModel.find(filters)
+  }
+
   async createPayment(
     user: string,
     payload: InitiatePaymentRequestDto,

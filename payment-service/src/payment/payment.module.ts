@@ -6,6 +6,7 @@ import { config } from 'src/common/utils/config';
 import { modelsDefinitions } from 'src/common/utils/mongoose';
 import { PaymentController } from './payment.controller';
 import { PaymentService } from './payment.service';
+import { VerifyPaymentService } from './verify-payment.service';
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { PaymentService } from './payment.service';
     ]),
   ],
   controllers: [PaymentController],
-  providers: [PaymentService],
+  providers: [PaymentService, VerifyPaymentService],
 })
 export class PaymentModule {}
