@@ -7,6 +7,7 @@ import {
   InternalServerErrorException,
   Logger,
   BadRequestException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { Error } from 'mongoose';
 import ValidationError = Error.ValidationError;
@@ -29,6 +30,10 @@ export class AllExceptionsFilter implements ExceptionFilter {
       status = 400;
     }
 
+    if (exception instanceof ForbiddenException) {
+      status = 401;
+    }
+
     this.logger.error(exception);
 
     /**
@@ -47,7 +52,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     if (exception instanceof BadRequestException) {
       const errors = (exception.getResponse() as any)?.message;
-      return responseMessage('ValidationError', { errors });
+      return responseMessage('ValidationError', {
+        errors: !Array.isArray(errors) ? [errors] : errors,
+      });
     }
 
     // MongoError, ValidationError, TypeError, CastError and Error

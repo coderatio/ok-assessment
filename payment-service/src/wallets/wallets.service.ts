@@ -5,11 +5,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import * as moment from 'moment';
 import mongoose, { Model } from 'mongoose';
 import { FundWalletDto } from 'src/common/dto/fund-wallet.dto';
 import { WalletCreateDto } from 'src/common/dto/wallet-create.dto';
-import { WalletHistoryDocument } from 'src/schemas/wallet-history.schema';
+import { PaymentType } from 'src/schemas/payment.schema';
+import {
+  WalletHistory,
+  WalletHistoryDocument,
+} from 'src/schemas/wallet-history.schema';
 import { Wallet, WalletDocument } from 'src/schemas/wallet.schema';
 
 @Injectable()
@@ -17,11 +20,12 @@ export class WalletsService {
   private readonly logger = new Logger('WalletService');
 
   constructor(
-    @InjectModel('Wallet') private readonly walletModel: Model<WalletDocument>,
-    @InjectModel('WalletHistory')
+    @InjectModel(Wallet.name)
+    private readonly walletModel: Model<WalletDocument>,
+    @InjectModel(WalletHistory.name)
     private readonly walletHistoryModel: Model<WalletHistoryDocument>,
     @InjectConnection() private readonly connection: mongoose.Connection,
-  ) { }
+  ) {}
 
   async create(walletCreateDto: WalletCreateDto): Promise<WalletDocument> {
     const wallet = new this.walletModel(walletCreateDto);
@@ -49,6 +53,7 @@ export class WalletsService {
       const wallet = await this.walletModel
         .findById(fundWalletDto.wallet)
         .exec();
+
       if (!wallet) {
         throw new NotFoundException(
           'Wallet does not exist or does not belongs to you.',
@@ -70,6 +75,7 @@ export class WalletsService {
         user: wallet.owner,
         wallet: wallet.id,
         amount: fundWalletDto.amount,
+        type: PaymentType.CREDIT,
         previousBalance,
         currentBalance,
       });
@@ -82,6 +88,7 @@ export class WalletsService {
     } catch (err) {
       this.logger.error(err);
       await session.abortTransaction();
+
       return [new Wallet() as WalletDocument, Error(err.message)];
     } finally {
       session.endSession();

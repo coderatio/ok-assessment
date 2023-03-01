@@ -4,8 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AUTH_SERVICE } from 'src/common/constants';
 import { config } from 'src/common/utils/config';
 import { modelsDefinitions } from 'src/common/utils/mongoose';
-import { WalletsController } from './wallets.controller';
-import { WalletsService } from './wallets.service';
+import { PaymentController } from './payment.controller';
+import { PaymentService } from './payment.service';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { WalletsService } from './wallets.service';
       },
     ]),
   ],
-  controllers: [WalletsController],
-  providers: [WalletsService],
+  controllers: [PaymentController],
+  providers: [PaymentService],
 })
-export class WalletModule { }
+export class PaymentModule {}

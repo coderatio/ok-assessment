@@ -9,7 +9,7 @@ import { AUTH_SERVICE } from 'src/common/constants';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema, collection: User.name }]),
     ClientsModule.register([
       {
         name: AUTH_SERVICE,
@@ -21,4 +21,4 @@ import { AUTH_SERVICE } from 'src/common/constants';
   controllers: [UsersController],
   providers: [UsersService],
 })
-export class UsersModule {}
+export class UsersModule { }

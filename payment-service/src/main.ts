@@ -4,6 +4,7 @@ import { Transport } from '@nestjs/microservices';
 import { AppModule } from './app.module';
 import { config } from './common/utils/config';
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
+import { RpcAppModule } from './rpc.module';
 
 const logger = new Logger('Main');
 
@@ -17,7 +18,7 @@ const microserviceOptions = {
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice(
-    AppModule,
+    RpcAppModule,
     microserviceOptions,
   );
   app.useGlobalFilters(new AllExceptionsFilter());

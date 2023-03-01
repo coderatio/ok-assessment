@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { PaymentType } from './payment.schema';
 
 export type WalletHistoryDocument = WalletHistory & Document;
 
@@ -13,6 +14,9 @@ export class WalletHistory {
 
   @Prop({ type: Number, required: true })
   amount: number;
+
+  @Prop({ type: String, enum: PaymentType })
+  type: PaymentType;
 
   @Prop({ type: Number, required: true })
   previousBalance: number;

@@ -1,4 +1,12 @@
-import { Body, Controller, HttpStatus, Logger, Post, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Logger,
+  Post,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { MessagePattern } from '@nestjs/microservices';
 import { WalletCreateDto } from 'src/common/dto/wallet-create.dto';
@@ -60,18 +68,14 @@ export class WalletsController {
       return;
     }
   }
-    
+
   @Post('fund')
   @UseGuards(PrincipalGuard)
   async fund(@Body() fundWalletDto: FundWalletDto, @Res() res: Response) {
     const [wallet, error] = await this.walletService.fund(fundWalletDto);
 
     if (error !== null) {
-      return Responsable.sendError(
-        res,
-        error.message,
-        HttpStatus.BAD_REQUEST,
-      );
+      return Responsable.sendError(res, error.message, HttpStatus.BAD_REQUEST);
     }
 
     return Responsable.sendSuccess(res, 'Wallet funded successfully', {
