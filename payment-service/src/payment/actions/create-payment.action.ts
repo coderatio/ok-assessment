@@ -21,7 +21,7 @@ export class CreatePaymentAction {
     public static async execute(
         paymentModel: Model<PaymentDocument>,
         walletModel: Model<WalletDocument>,
-        payload: InitiatePaymentRequestDto,
+        payload: any,
     ): Promise<InitiatePaymentDto[]> {
         const $this = new CreatePaymentAction();
 

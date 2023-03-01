@@ -51,16 +51,21 @@ export class PaymentService {
 
   async createPayment(
     user: string,
-    payload: InitiatePaymentRequestDto,
-  ): Promise<Payment> {
+    payload: any,
+  ): Promise<any> {
     const session = await this.connection.startSession();
 
     session.startTransaction();
     try {
+      let updatedPayload: InitiatePaymentRequestDto = payload
+      if (!Array.isArray(payload)) {
+        updatedPayload = { payments: [payload] }
+      }
+
       const paymentItems = await CreatePaymentAction.execute(
         this.paymentModel,
         this.walletModel,
-        { ...{ user }, ...payload },
+        { ...{ user }, ...updatedPayload },
       );
 
       const payments = await this.paymentModel.insertMany(paymentItems, {

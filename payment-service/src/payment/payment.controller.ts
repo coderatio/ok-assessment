@@ -24,7 +24,7 @@ export class PaymentController {
   @Post('initiate')
   @UseGuards(PrincipalGuard)
   async initiate(
-    @Body() data: InitiatePaymentRequestDto,
+    @Body() data,
     @Res() res: Response,
     @Req() req: any,
   ) {
@@ -94,7 +94,7 @@ export class PaymentController {
         );
       }
 
-      return Responsable.sendRpcSuccess('user payments retreived', payments);
+      return Responsable.sendRpcSuccess('User payments retreived', payments);
     } catch (error) {
       if (!(error instanceof Error)) {
         throw new Error(error.message);
