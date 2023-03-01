@@ -18,6 +18,10 @@ export class InitiatePaymentDto {
   @Min(1)
   amount: number;
 
+  @IsOptional()
+  @IsString()
+  user: string;
+
   @IsString()
   @IsNotEmpty()
   //@IsIn([SUPPORTED_CURRENCIES])
